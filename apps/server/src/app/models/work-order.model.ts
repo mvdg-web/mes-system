@@ -1,4 +1,5 @@
-import { Field, ID, ObjectType, Int } from '@nestjs/graphql';
+// apps/server/src/app/models/work-order.model.ts
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class WorkOrder {
@@ -6,17 +7,23 @@ export class WorkOrder {
   id: string;
 
   @Field()
-  orderNumber: string;
-
-  @Field()
-  productName: string;
+  workOrderNumber: string;
 
   @Field(() => Int)
-  targetQty: number;
-
-  @Field(() => Int)
-  producedQty: number;
+  quantity: number;
 
   @Field()
-  status: string; // We can upgrade this to an Enum later!
+  status: string;
+
+  @Field()
+  productId: string;
+
+  @Field({ nullable: true })
+  userId?: string;
+
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
 }

@@ -9,8 +9,13 @@ datasource db {
 
 generator client {
   provider = "prisma-client"
-  output   = "../libs/database/src/lib/generated"
+  output   = "../libs/database/src/lib/generated/prisma"
   moduleFormat = "cjs"
+}
+
+generator nestgraphql {
+  provider = "prisma-nestjs-graphql"
+  output   = "../libs/database/src/lib/generated/graphql"
 }
 
 model User {
@@ -18,7 +23,7 @@ model User {
   username    String      @unique
   name        String
   role        String      @default("OPERATOR") // ADMIN, OPERATOR, MANAGER
-  workOrders  WorkOrder[] // One user can have many work orders
+  workOrders  WorkOrder[]
   createdAt   DateTime    @default(now())
 }
 
@@ -27,7 +32,7 @@ model Product {
   sku         String      @unique // e.g., "PCB-A-772"
   name        String
   description String?
-  workOrders  WorkOrder[] // One product can be on many work orders
+  workOrders  WorkOrder[]
 }
 
 model WorkOrder {
