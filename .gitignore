@@ -46,3 +46,10 @@ Thumbs.db
 .angular
 
 __screenshots__/
+
+vite.config.*.timestamp*
+
+libs/database/src/lib/generated
+
+.env
+.env.local
