@@ -14,8 +14,35 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
+  id          String      @id @default(uuid())
+  username    String      @unique
+  name        String
+  role        String      @default("OPERATOR") // ADMIN, OPERATOR, MANAGER
+  workOrders  WorkOrder[] // One user can have many work orders
+  createdAt   DateTime    @default(now())
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  sku         String      @unique // e.g., "PCB-A-772"
+  name        String
+  description String?
+  workOrders  WorkOrder[] // One product can be on many work orders
+}
+
+model WorkOrder {
+  id              String   @id @default(uuid())
+  workOrderNumber String   @unique
+  quantity        Int
+  status          String   @default("PLANNED") // PLANNED, IN_PROGRESS, COMPLETED
+
+  // Relations
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id])
+
+  userId          String?
+  assignedTo      User?    @relation(fields: [userId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
