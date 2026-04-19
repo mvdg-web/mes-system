@@ -4,7 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start:server": "nx serve server",
-    "start:frontend": "nx serve frontend"
+    "start:frontend": "nx serve frontend",
+    "db:watch": "npx prisma generate --watch --schema=prisma/schema.prisma",
+    "generate": "graphql-codegen",
+    "generate:watch": "graphql-codegen --watch",
+    "bootstrap": "npx prisma generate --schema=prisma/schema.prisma && npm run generate"
   },
   "private": true,
   "dependencies": {
@@ -14,6 +18,7 @@
     "@angular/forms": "~21.2.0",
     "@angular/platform-browser": "~21.2.0",
     "@angular/router": "~21.2.0",
+    "@apollo/client": "^4.1.7",
     "@apollo/server": "^5.5.0",
     "@as-integrations/express5": "^1.1.2",
     "@nestjs/apollo": "^13.2.5",
@@ -38,6 +43,8 @@
     "@angular/compiler-cli": "~21.2.0",
     "@angular/language-service": "~21.2.0",
     "@eslint/js": "^9.8.0",
+    "@graphql-codegen/cli": "^6.3.1",
+    "@graphql-codegen/client-preset": "^5.3.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "@nx/angular": "22.6.3",
@@ -64,6 +71,7 @@
     "@vitest/ui": "~4.0.0",
     "ajv": "^8.0.0",
     "angular-eslint": "^21.2.0",
+    "apollo-angular": "^13.0.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-playwright": "^1.6.2",

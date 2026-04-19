@@ -1,22 +1,31 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { WorkOrderService } from '@mes/api';
 
 @Component({
-  imports: [RouterModule, JsonPipe],
+  imports: [RouterModule, AsyncPipe],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
-  fruitsSignal = signal(['Apple', 'Banana', 'Orange']);
+export class App implements OnInit {
+  private service = inject(WorkOrderService);
+  data: any;
+  workOrders$: Observable<any> | undefined;
 
-  protected addFruit() {
-    this.fruitsSignal.update((fruits) => [...fruits, 'Mango']);
+  ngOnInit() {
+    this.workOrders$ = this.service.getWorkOrders();
   }
 
-  protected removeFruit() {
-    this.fruitsSignal.update((fruits) => fruits.slice(0, -1));
+  changeStatus(id: string, status: string) {
+    // We don't need to manually refresh the list
+    // Apollo's cache will handle the UI update automatically!
+    this.service.updateStatus(id, status).subscribe({
+      next: (res) => console.log(`Status moved to ${status}`),
+      error: (err) => alert('Factory comms error: ' + err.message),
+    });
   }
 }

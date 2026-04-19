@@ -1,0 +1,21 @@
+.container { padding: 2rem; font-family: sans-serif; background: #f4f7f6; min-height: 100vh; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+
+.card {
+  background: white; border-radius: 8px; padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: 5px solid #cbd5e0;
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.wo-number { font-weight: bold; color: #4a5568; font-size: 0.9rem; }
+
+.status-badge {
+  padding: 0.25rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
+}
+
+/* Status Colors */
+[data-status="PLANNED"] { background: #ebf8ff; color: #2b6cb0; }
+[data-status="IN_PROGRESS"] { background: #fefcbf; color: #b7791f; border-left: 5px solid #ecc94b; }
+[data-status="COMPLETED"] { background: #f0fff4; color: #38a169; }
+
+.qty { font-size: 1.1rem; color: #2d3748; }

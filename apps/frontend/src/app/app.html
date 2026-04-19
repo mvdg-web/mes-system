@@ -1,4 +1,54 @@
-<h1>Fruits Array</h1>
-<h2>{{ fruitsSignal() | json }}</h2>
-<button (click)="addFruit()">Add Fruit</button>
-<button (click)="removeFruit()">Remove Fruit</button>
+<!--<h1>Fruits Array</h1>-->
+<!--<h2>{{ fruitsSignal() | json }}</h2>-->
+<!--<button (click)="addFruit()">Add Fruit</button>-->
+<!--<button (click)="removeFruit()">Remove Fruit</button>-->
+
+<div class="container">
+  <header>
+    <h1>🏭 MES Mission Control</h1>
+    <p>Live Production Monitoring (v22.0)</p>
+  </header>
+
+  @if (workOrders$ | async; as orders) {
+    <div class="dashboard-grid">
+      @for (order of orders; track order.id) {
+        <div class="card">
+          <div class="card-header">
+            <span class="wo-number">{{ order.workOrderNumber }}</span>
+            <span class="status-badge" [attr.data-status]="order.status">
+              {{ order.status }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <h3>{{ order.product?.name }}</h3>
+            <p class="qty">Quantity: <strong>{{ order.quantity }}</strong></p>
+          </div>
+
+          <div class="card-actions">
+            @if (order.status === 'PLANNED') {
+              <button (click)="changeStatus(order.id, 'IN_PROGRESS')" class="btn-start">
+                Start Work
+              </button>
+            } @else if (order.status === 'IN_PROGRESS') {
+              <button (click)="changeStatus(order.id, 'COMPLETED')" class="btn-complete">
+                Finish Order
+              </button>
+            } @else {
+              <p class="done-label">✅ Order Archived</p>
+            }
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>No active work orders on the floor.</p>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="loader">
+      <p>Synchronizing with Factory Core...</p>
+    </div>
+  }
+</div>
+
